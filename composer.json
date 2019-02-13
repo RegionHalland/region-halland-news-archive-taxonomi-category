@@ -1,0 +1,13 @@
+{
+    "name": "regionhalland/region-halland-news-archive-taxonomi-category",
+    "description": "Skapa posttyp news inkl. taxonomi och använder archive.php för att visa nyheterna",
+    "type": "wordpress-plugin",
+    "license": "MIT",
+    "authors": [
+        {
+            "name": "Roland Hydén",
+            "email": "Roland.Hyden@Regionhalland.se"
+        }
+    ],
+    "require": {}
+}
