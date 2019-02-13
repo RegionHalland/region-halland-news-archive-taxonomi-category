@@ -1,4 +1,4 @@
-# Hämta aktuell sida + alla barn-sidor
+# Skapa nyhetsfunktion inklusive arkiv med filter
 
 ## Hur man använder Region Hallands plugin "region-halland-news-archive-taxonomi-category"
 
