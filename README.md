@@ -243,5 +243,8 @@ array (size=2)
 
 ## Versionhistorik
 
+### 1.1.0
+- Lagt till behörigheter
+
 ### 1.0.0
 - Första version
