@@ -6,7 +6,7 @@
 	/*
 	Plugin Name: Region Halland News Archive Taxonomi Category
 	Description: Skapa posttyp "news" inkl. taxonomi och använder "archive.php" för att visa nyheterna 
-	Version: 1.1.0
+	Version: 1.2.0
 	Author: Roland Hydén
 	License: MIT
 	Text Domain: regionhalland
@@ -159,7 +159,7 @@
 		foreach ($myPages as $page) {
 
 			// Lägg till sidans url 	
-			$page->url = get_page_link($page->ID);
+			$page->url = get_permalink($page->ID);
 
 			// Bild
 			$page->image = get_the_post_thumbnail($page->ID);
@@ -198,6 +198,73 @@
         // Returnera arrayen med alla kategorier
         return $myTerms;
 	    
+	}
+
+	function get_region_halland_page_news_taxonomi_category() {
+
+		// Wordpress funktion för aktuell post
+		global $post;
+		
+		// Databas connection
+		global $wpdb; 
+
+		// Select
+		$sql = "";
+		$sql .= "SELECT R.object_id ";
+		$sql .= "FROM wp_term_relationships R "; 
+		
+		// Join
+		$sql .= "INNER JOIN wp_posts P ON R.object_id = P.ID ";
+		
+		// Where
+		$sql .= "WHERE R.term_taxonomy_id IN ";
+		$sql .= "( ";
+			$sql .= "SELECT term_taxonomy_id ";
+			$sql .= "FROM wp_term_relationships "; 
+			$sql .= "WHERE object_id = $post->ID ";
+		$sql .= ") ";
+		$sql .= "AND ";
+			$sql .= "R.object_id <> $post->ID ";
+		$sql .= "AND ";
+			$sql .= "P.post_status = 'publish' ";
+				
+		$arrIDs = $wpdb->get_results($sql, ARRAY_A);
+		
+		// Return id
+		//return $arrIDs;
+
+		// Skapa array med länkar
+        $myPosts = array();
+        
+        // Loopa igenom alla id
+        foreach ($arrIDs as $myIDs) {
+        	
+        	// Hämta lite data
+        	$myID = $myIDs['object_id'];
+        	$page = get_post($myID);
+			$pageUrl = get_permalink($page->ID);
+			$pageImage = get_the_post_thumbnail($page->ID);
+			$pageImageUrl = get_the_post_thumbnail_url($page->ID);
+			$pageDate = get_the_date('Y-m-d', $page->ID);
+			$pageTerms = get_region_halland_news_archive_taxonomi_category_terms($page->ID);
+	        
+			// Placera datana i tmp-arrayen
+	        array_push($myPosts, array(
+	           'ID' => $myID,
+	           'title' => $page->post_title,
+	           'permalink' => $pageUrl,
+	           'date' => $pageDate,
+	           'content' => $page->post_content,
+	           'image' => $pageImage,
+	           'image_url' => $pageImageUrl,
+	           'page_terms' => $pageTerms
+	        ));
+
+        }
+
+		// Returnera tmp-arrayen
+		return $myPosts;
+
 	}
 
 	// Metod som anropas när pluginen aktiveras

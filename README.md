@@ -8,7 +8,7 @@ Nedan följer instruktioner hur du kan använda pluginet "region-halland-news-ar
 ## Användningsområde
 
 Denna plugin skapar posttyp "news" inkl. taxonomi och använder "archive.php" för att visa nyheterna
-
+OBS! Om du även har installerat pluginen "https://github.com/RegionHalland/region-halland-use-taxonomy-category-on-page.git", dvs att kunna använda taxonomy category på sidor, så kan du även använda funktionen "get_region_halland_page_news_taxonomi_category()" som hämtar ut nyheter som matchar kategori-noder sidor/nyheter.
 
 ## Installation och aktivering
 
@@ -51,7 +51,7 @@ OBS! Justera så att du hämtar aktuell version.
 ```
 
 
-## Hämta tu alla kategorier via "Blade" och visa på "archive.php"
+## Hämta alla kategorier via "Blade" och visa på "archive.php"
 
 ```sh
 @if(function_exists('get_region_halland_news_archive_taxonomi_category_categories'))
@@ -241,7 +241,68 @@ array (size=2)
 ```
 
 
+## Visa poster via "Blade" inklusive alla kategorier på på relaterad sida/nyhet.
+
+```sh
+@if(function_exists('get_region_halland_page_news_taxonomi_category'))
+@php($pageNews = get_region_halland_page_news_taxonomi_category())
+  @if(isset($pageNews) && !empty($pageNews))
+    @foreach ($pageNews as $myNews)
+      <a href="{{ $myNews['permalink'] }}">
+        <h2>{{ $myNews['post_title'] }}</h2>
+      </a>
+      <span>Publicerad: {{ $myNews['date'] }}</span>
+      <p>{!! $myNews['post_content'] !!}</p>
+      @foreach($myNews['terms'] as $term)
+        <a href="{{ $term['link'] }}">{{ $term['name'] }}</a>
+      @endforeach
+    @endforeach
+  @endif
+@endif
+```
+
+
+## Exempel på hur arrayen kan se ut
+
+```sh
+array (size=2)
+  0 => 
+    array (size=8)
+      'ID' => string '102' (length=3)
+      'post_title' => string 'Lorem ipsum' (length=11)
+      'permalink' => string 'http://exempel.se/nyheter/lorem-ipsum/' (length=38)
+      'date' => string '2019-02-11' (length=10)
+      'post_content' => string 'Vestibulum ante ipsum primis in faucibus' (length=40)
+      'image' => string '' (length=0)
+      'image_url' => boolean false
+      'terms' => 
+        array (size=2)
+          0 => 
+            array (size=2)
+              'name' => string 'Morbi id eleifend' (length=17)
+              'link' => string 'http://exempel.se/nyheter/?filter[category]=morbi-id-eleifend' (length=61)
+  1 => 
+    array (size=8)
+      'ID' => string '124' (length=3)
+      'post_title' => string 'Ellentesque habitant morbi' (length=26)
+      'permalink' => string 'http://exempel.se/nyheter/ellentesque-habitant-morbi/' (length=52)
+      'date' => string '2019-03-05' (length=10)
+      'post_content' => string 'Donec maximus purus justo' (length=25)
+      'image' => string '' (length=0)
+      'image_url' => boolean false
+      'terms' => 
+        array (size=2)
+          0 => 
+            array (size=2)
+              'name' => string 'Morbi id eleifend' (length=17)
+              'link' => string 'http://exempel.se/nyheter/?filter[category]=morbi-id-eleifend' (length=61)
+```
+
+
 ## Versionhistorik
+
+### 1.2.0
+- Lagt till funktion för relaterade sidor/nyheter
 
 ### 1.1.0
 - Lagt till behörigheter
