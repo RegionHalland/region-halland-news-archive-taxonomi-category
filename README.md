@@ -249,10 +249,10 @@ array (size=2)
   @if(isset($pageNews) && !empty($pageNews))
     @foreach ($pageNews as $myNews)
       <a href="{{ $myNews['permalink'] }}">
-        <h2>{{ $myNews['post_title'] }}</h2>
+        <h2>{{ $myNews['title'] }}</h2>
       </a>
       <span>Publicerad: {{ $myNews['date'] }}</span>
-      <p>{!! $myNews['post_content'] !!}</p>
+      <p>{!! $myNews['content'] !!}</p>
       @foreach($myNews['terms'] as $term)
         <a href="{{ $term['link'] }}">{{ $term['name'] }}</a>
       @endforeach
@@ -269,10 +269,10 @@ array (size=2)
   0 => 
     array (size=8)
       'ID' => string '102' (length=3)
-      'post_title' => string 'Lorem ipsum' (length=11)
+      'title' => string 'Lorem ipsum' (length=11)
       'permalink' => string 'http://exempel.se/nyheter/lorem-ipsum/' (length=38)
       'date' => string '2019-02-11' (length=10)
-      'post_content' => string 'Vestibulum ante ipsum primis in faucibus' (length=40)
+      'content' => string 'Vestibulum ante ipsum primis in faucibus' (length=40)
       'image' => string '' (length=0)
       'image_url' => boolean false
       'terms' => 
@@ -284,10 +284,10 @@ array (size=2)
   1 => 
     array (size=8)
       'ID' => string '124' (length=3)
-      'post_title' => string 'Ellentesque habitant morbi' (length=26)
+      'title' => string 'Ellentesque habitant morbi' (length=26)
       'permalink' => string 'http://exempel.se/nyheter/ellentesque-habitant-morbi/' (length=52)
       'date' => string '2019-03-05' (length=10)
-      'post_content' => string 'Donec maximus purus justo' (length=25)
+      'content' => string 'Donec maximus purus justo' (length=25)
       'image' => string '' (length=0)
       'image_url' => boolean false
       'terms' => 
