@@ -301,6 +301,14 @@ array (size=2)
 
 ## Versionhistorik
 
+### 1.2.2
+- Default antal nyheter på en sida är 4
+- Möjlighet att själv välja antal nyheter på en sida
+- Senast publicerad överst
+
+### 1.2.1
+- Förbättrad readme
+
 ### 1.2.0
 - Lagt till funktion för relaterade sidor/nyheter
 
