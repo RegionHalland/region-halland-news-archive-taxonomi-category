@@ -98,6 +98,7 @@ array (size=6)
       <a href="{{ $post['permalink'] }}">
         <h2>{{ $post['title'] }}</h2>
       </a>
+      <p>{{ $post['ingress'] }}</p>
       <span>Publicerad: {{ $post['date'] }}</span>
       <p>{{ $post['content'] }}</p>
         @foreach($post['terms'] as $term)
@@ -117,6 +118,7 @@ array (size=2)
       'permalink' => string 'http://exempel.se/nyheter/lorem-ipsum/' (length=38)
       'title' => string 'Lorem ipsum' (length=11)
       'content' => string 'Vestibulum ante ipsum primis in faucibus' (length=40)
+      'ingress' => string 'Lorem ipsum' (length=11)
       'date' => string '2018-10-01' (length=10)
       'terms' => 
         array (size=1)
@@ -129,6 +131,7 @@ array (size=2)
       'permalink' => string 'http://exempel.se/nyheter/ellentesque-habitant-morbi/' (length=52)
       'title' => string 'Ellentesque habitant morbi' (length=26)
       'content' => string 'Donec maximus purus justo' (length=25)
+      'ingress' => string 'Lorem ipsum' (length=11)
       'date' => string '2018-09-24' (length=10)
       'terms' => 
         array (size=2)
@@ -142,6 +145,7 @@ array (size=2)
               'link' => string 'http://exempel.se/nyheter/?filter[category]=donec-eros-diam' (length=59)
 ```
 
+
 ## Visa poster via "Blade" inklusive alla kategorier på valfri sida, i exemplet 2 poster
 
 ```sh
@@ -152,6 +156,7 @@ array (size=2)
       <a href="{{ $myNews->url }}">
         <h2>{{ $myNews->post_title }}</h2>
       </a>
+      <p>{{ $myNews->ingress }}</p>
       <span>Publicerad: {{ $myNews->date }}</span>
       <p>{!! $myNews->post_content !!}</p>
       @foreach($myNews->terms as $term)
@@ -196,6 +201,7 @@ array (size=2)
       public 'image' => string '' (length=0)
       public 'image_url' => boolean false
       public 'date' => string '2018-11-20' (length=10)
+      public 'ingress' => string 'Lorem ipsum' (length=11)
       public 'terms' => 
         array (size=1)
           0 => 
@@ -232,6 +238,7 @@ array (size=2)
       public 'image' => string '' (length=0)
       public 'image_url' => boolean false
       public 'date' => string '2018-11-19' (length=10)
+      public 'ingress' => string 'Lorem ipsum' (length=11)
       public 'terms' => 
         array (size=1)
           0 => 
@@ -251,6 +258,7 @@ array (size=2)
       <a href="{{ $myNews['permalink'] }}">
         <h2>{{ $myNews['title'] }}</h2>
       </a>
+      <p>{{ $myNews['ingress'] }}</p>
       <span>Publicerad: {{ $myNews['date'] }}</span>
       <p>{!! $myNews['content'] !!}</p>
       @foreach($myNews['terms'] as $term)
@@ -273,6 +281,7 @@ array (size=2)
       'permalink' => string 'http://exempel.se/nyheter/lorem-ipsum/' (length=38)
       'date' => string '2019-02-11' (length=10)
       'content' => string 'Vestibulum ante ipsum primis in faucibus' (length=40)
+      'ingress' => string 'Lorem ipsum' (length=11)
       'image' => string '' (length=0)
       'image_url' => boolean false
       'terms' => 
@@ -299,7 +308,20 @@ array (size=2)
 ```
 
 
+## Visa ingressen på en single-sida via "Blade"
+
+```sh
+<p>{{ get_region_halland_page_news_taxonomi_category_ingress() }}</p>
+```
+
+
 ## Versionhistorik
+
+### 1.3.0
+- Fält för ingress tillagd
+- Funktion för att hämta ut ingress på en single-sida
+- Fältet ingress tillagd i alla listuthämtningar
+- Förändrad url i filterfunktion, från ?filter[category] till ?category
 
 ### 1.2.2
 - Default antal nyheter på en sida är 4

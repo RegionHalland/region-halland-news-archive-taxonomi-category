@@ -6,7 +6,7 @@
 	/*
 	Plugin Name: Region Halland News Archive Taxonomi Category
 	Description: Skapa posttyp "news" inkl. taxonomi och använder "archive.php" för att visa nyheterna 
-	Version: 1.2.2
+	Version: 1.3.0
 	Author: Roland Hydén
 	License: MIT
 	Text Domain: regionhalland
@@ -50,6 +50,61 @@
 	    
 	}
 
+	// Anropa function om ACF är installerad
+	add_action('acf/init', 'my_acf_add_news_ingress_field_groups');
+
+	// Function för att lägga till "field groups"
+	function my_acf_add_news_ingress_field_groups() {
+
+		if (function_exists('acf_add_local_field_group')):
+
+			acf_add_local_field_group(array(
+			    'key' => 'group_1000140',
+			    'title' => 'Nyhetsingress',
+			    'fields' => array(
+			        0 => array(
+			        	'key' => 'field_1000141',
+			            'label' => __('Ingress', 'regionhalland'),
+			            'name' => 'name_1000142',
+			            'type' => 'textarea',
+			            'instructions' => __('Skriv din ingress här', 'regionhalland'),
+			            'required' => 0,
+			            'conditional_logic' => 0,
+			            'wrapper' => array(
+			                'width' => '',
+			                'class' => '',
+			                'id' => '',
+			            ),
+			            'default_value' => '',
+			            'placeholder' => '',
+			            'prepend' => '',
+			            'append' => '',
+			            'maxlength' => '',
+			        ),
+			    ),
+			    'location' => array(
+			        0 => array(
+			            0 => array(
+			                'param' => 'post_type',
+			                'operator' => '==',
+			                'value' => 'news',
+			            ),
+			        )
+			    ),
+			    'menu_order' => 0,
+			    'position' => 'normal',
+			    'style' => 'default',
+			    'label_placement' => 'top',
+			    'instruction_placement' => 'label',
+			    'hide_on_screen' => '',
+			    'active' => 1,
+			    'description' => '',
+			));
+
+		endif;
+	
+	}
+
 	function get_region_halland_news_archive_taxonomi_category_filter() {
 		
 		// Wordpress funktion för aktuell post
@@ -57,8 +112,8 @@
 		
 		// Ta emot valt filter
 		$args = array();
-		if(isset($_GET["filter"]["category"])){
-			$strCategoryName = $_GET["filter"]["category"];
+		if(isset($_GET["category"])){
+			$strCategoryName = $_GET["category"];
 			$args = array(
 				'category_name' => $strCategoryName
 			);
@@ -83,7 +138,8 @@
 	        $strTitle = $post->post_title;
 	        $dtmDate = get_the_date('Y-m-d', $post->ID);
 	        $strContent = $post->post_content;
-	        
+	    	$strIngress = get_field('name_1000142', $post->ID);
+    
 	        // Hämta alla kategorier för en post och pusha dessa till $myTerms
 	        if (get_the_terms($post->ID, 'category')){
 	     		foreach (get_the_terms($post->ID, 'category') as $key => $term) {
@@ -91,7 +147,7 @@
 	     			$termSlug = $term->slug;
 			        array_push($myTerms, array(
 			           'name' => $termName,
-			           'link' => get_post_type_archive_link(get_post_type()) . "?filter[category]=" . $termSlug
+			           'link' => get_post_type_archive_link(get_post_type()) . "?category=" . $termSlug
 			        ));
 	     		}
 	        }
@@ -101,6 +157,7 @@
 	           'permalink' => $strPermalink,
 	           'title' => $strTitle,
 	           'content' => $strContent,
+	           'ingress' => $strIngress,
 	           'date' => $dtmDate,
 	           'terms' => $myTerms
 	        ));
@@ -136,7 +193,7 @@
 	        $strTermSlug = $term->slug;
 	        array_push($myTerms, array(
 	           'name' => $strTermName,
-	           'link' => get_post_type_archive_link(get_post_type()) . "?filter[category]=" . $strTermSlug
+	           'link' => get_post_type_archive_link(get_post_type()) . "?category=" . $strTermSlug
 	        ));
         }
 
@@ -168,6 +225,8 @@
 			// Publicerad datum
 			$page->date = get_the_date('Y-m-d', $page->ID);
 	        
+			$page->ingress = get_field('name_1000142', $page->ID);
+	
 	        // Hämta alla taxonimi-filter
 			$page->terms = get_region_halland_news_archive_taxonomi_category_terms($page->ID);
 		}
@@ -190,7 +249,7 @@
      			$termSlug = $term->slug;
 		        array_push($myTerms, array(
 		           'name' => $termName,
-		           'link' => get_post_type_archive_link(get_post_type($ID)) . "?filter[category]=" . $termSlug
+		           'link' => get_post_type_archive_link(get_post_type($ID)) . "?category=" . $termSlug
 		        ));
      		}
         }
@@ -246,6 +305,7 @@
 			$pageImageUrl = get_the_post_thumbnail_url($page->ID);
 			$pageDate = get_the_date('Y-m-d', $page->ID);
 			$pageTerms = get_region_halland_news_archive_taxonomi_category_terms($page->ID);
+	    	$strIngress = get_field('name_1000142', $page->ID);
 	        
 			// Placera datana i tmp-arrayen
 	        array_push($myPosts, array(
@@ -254,6 +314,7 @@
 	           'permalink' => $pageUrl,
 	           'date' => $pageDate,
 	           'content' => $page->post_content,
+	           'ingress' => $strIngress,
 	           'image' => $pageImage,
 	           'image_url' => $pageImageUrl,
 	           'page_terms' => $pageTerms
@@ -264,6 +325,10 @@
 		// Returnera tmp-arrayen
 		return $myPosts;
 
+	}
+
+	function get_region_halland_page_news_taxonomi_category_ingress() {
+		return get_field('name_1000142');		
 	}
 
 	// Metod som anropas när pluginen aktiveras
