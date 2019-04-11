@@ -317,6 +317,9 @@ array (size=2)
 
 ## Versionhistorik
 
+### 1.3.1
+- Justerat med ID för ingress
+
 ### 1.3.0
 - Fält för ingress tillagd
 - Funktion för att hämta ut ingress på en single-sida

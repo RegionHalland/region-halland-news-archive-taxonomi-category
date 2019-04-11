@@ -6,7 +6,7 @@
 	/*
 	Plugin Name: Region Halland News Archive Taxonomi Category
 	Description: Skapa posttyp "news" inkl. taxonomi och använder "archive.php" för att visa nyheterna 
-	Version: 1.3.0
+	Version: 1.3.1
 	Author: Roland Hydén
 	License: MIT
 	Text Domain: regionhalland
@@ -327,8 +327,12 @@
 
 	}
 
-	function get_region_halland_page_news_taxonomi_category_ingress() {
-		return get_field('name_1000142');		
+	function get_region_halland_page_news_taxonomi_category_ingress($id = 0) {
+		if ($id == 0) {
+			return get_field('name_1000142');		
+		} else {
+			return get_field('name_1000142', $id);		
+		}
 	}
 
 	// Metod som anropas när pluginen aktiveras
