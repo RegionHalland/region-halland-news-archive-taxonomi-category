@@ -317,6 +317,9 @@ array (size=2)
 
 ## Versionhistorik
 
+### 1.3.2
+- Hämtades bara ut 10 nyheter istället för alla.
+
 ### 1.3.1
 - Justerat med ID för ingress
 
