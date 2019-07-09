@@ -317,6 +317,9 @@ array (size=2)
 
 ## Versionhistorik
 
+### 1.3.3
+- Korrigerat bugg. Bara post_type 'news' ska hämtas ut för relaterade poster
+
 ### 1.3.2
 - Hämtades bara ut 10 nyheter istället för alla.
 
