@@ -10,6 +10,15 @@ Nedan följer instruktioner hur du kan använda pluginet "region-halland-news-ar
 Denna plugin skapar posttyp "news" inkl. taxonomi och använder "archive.php" för att visa nyheterna
 OBS! Om du även har installerat pluginen "https://github.com/RegionHalland/region-halland-use-taxonomy-category-on-page.git", dvs att kunna använda taxonomy category på sidor, så kan du även använda funktionen "get_region_halland_page_news_taxonomi_category()" som hämtar ut nyheter som matchar kategori-noder sidor/nyheter.
 
+
+## Licensmodell
+
+Denna plugin använder licensmodell GPL-3.0. Du kan läsa mer om denna licensmodell via den medföljande filen:
+```sh
+LICENSE (https://github.com/RegionHalland/region-halland-news-archive-taxonomi-category/blob/master/LICENSE)
+```
+
+
 ## Installation och aktivering
 
 ```sh
@@ -316,6 +325,10 @@ array (size=2)
 
 
 ## Versionhistorik
+
+### 1.4.0
+- Uppdaterat med information om licensmodell
+- Bifogat fil med licensmodell
 
 ### 1.3.3
 - Korrigerat bugg. Bara post_type 'news' ska hämtas ut för relaterade poster
